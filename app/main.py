@@ -57,5 +57,9 @@ async def root():
             "flash": config.gemini.model_flash,
             "pro": config.gemini.model_pro,
         },
+        "stubs": {
+            "ocr_provider": config.ocr.provider,
+            "antivirus_provider": config.antivirus.provider,
+        },
         "schema": RESUME_OUTPUT_SCHEMA,
     }
