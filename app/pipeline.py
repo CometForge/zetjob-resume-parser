@@ -179,7 +179,7 @@ async def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
     }
 
     if not text or len(text) < 200:
-        fields["needsOcr"] = {"value": True, "confidence": 0.9, "ocr_status": "pending"}
+        fields["needsOcr"] = {"value": True, "confidence": 0.9, "ocr_status": "queued"}
     else:
         fields["needsOcr"] = {"value": False, "confidence": 0.9, "ocr_status": "not_required"}
 
