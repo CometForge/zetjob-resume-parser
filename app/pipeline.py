@@ -183,7 +183,7 @@ async def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
     else:
         fields["needsOcr"] = {"value": False, "confidence": 0.9, "ocr_status": "not_required"}
 
-    fields["antivirus"] = {"value": "pending", "confidence": 0.5, "scan_status": "not_implemented"}
+    fields["antivirus"] = {"value": "pending", "confidence": 0.5, "scan_status": "not_implemented", "note": "stub"}
 
     return {
         "steps": PIPELINE_STEPS,
