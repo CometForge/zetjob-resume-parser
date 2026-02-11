@@ -7,5 +7,11 @@ async def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
     return {
         "steps": PIPELINE_STEPS,
         "schema": RESUME_OUTPUT_SCHEMA,
-        "output": None,
+        "text": None,
+        "scores": {
+            "readability": None,
+            "ats": None,
+            "match": None,
+        },
+        "fields": {},
     }

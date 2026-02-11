@@ -16,17 +16,22 @@ JOBS = {}
 async def parse_resume(req: ParseRequest):
     job_id = str(uuid4())
     received_at = datetime.now(timezone.utc).isoformat()
-    JOBS[job_id] = {
-        "status": "queued",
-        "request": req.model_dump(),
-        "telemetry": {
-            "request_id": job_id,
-            "received_at": received_at,
-            "pipeline_version": "0.1.0",
-        },
+    telemetry = {
+        "request_id": job_id,
+        "received_at": received_at,
+        "pipeline_version": "0.1.0",
+        "model_used": (req.models or {}).get("parse"),
     }
-    # async stub: not running pipeline yet
-    return ParseResponse(id=job_id, status="queued")
+
+    result = await run_pipeline(req.model_dump())
+
+    return ParseResponse(
+        status="parsed",
+        text=result.get("text"),
+        scores=result.get("scores"),
+        fields=result.get("fields"),
+        telemetry=Telemetry(**telemetry),
+    )
 
 @app.get("/status/{id}", response_model=StatusResponse)
 async def status(id: str):

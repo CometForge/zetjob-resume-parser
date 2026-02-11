@@ -10,12 +10,21 @@ class Telemetry(BaseModel):
     pipeline_version: str = Field("0.1.0")
 
 class ParseRequest(BaseModel):
-    resume_text: Optional[str] = Field(None, description="Raw resume text")
-    resume_url: Optional[str] = Field(None, description="URL to resume file")
+    file_base64: str = Field(..., alias="fileBase64", description="Base64-encoded resume file")
+    file_name: Optional[str] = Field(None, alias="fileName", description="Original filename")
+    mime_type: Optional[str] = Field(None, alias="mimeType", description="MIME type if known")
+    models: Optional[Dict[str, str]] = Field(None, description="Model overrides")
+
+    model_config = {
+        "populate_by_name": True
+    }
 
 class ParseResponse(BaseModel):
-    id: str
     status: str
+    text: Optional[str] = None
+    scores: Optional[Dict[str, Any]] = None
+    fields: Optional[Dict[str, Any]] = None
+    telemetry: Optional[Telemetry] = None
 
 class StatusResponse(BaseModel):
     id: str
@@ -31,6 +40,19 @@ RESUME_OUTPUT_SCHEMA: Dict[str, Any] = {
     "additionalProperties": False,
     "required": ["candidate", "experience", "education", "skills", "telemetry"],
     "properties": {
+        "scores": {
+            "type": "object",
+            "additionalProperties": False,
+            "properties": {
+                "readability": {"type": ["number", "string"]},
+                "ats": {"type": ["number", "string"]},
+                "match": {"type": ["number", "string"]}
+            }
+        },
+        "fields": {
+            "type": "object",
+            "additionalProperties": True
+        },
         "candidate": {
             "type": "object",
             "additionalProperties": False,
