@@ -13,6 +13,7 @@ class ParseRequest(BaseModel):
     file_base64: str = Field(..., alias="fileBase64", description="Base64-encoded resume file")
     file_name: Optional[str] = Field(None, alias="fileName", description="Original filename")
     mime_type: Optional[str] = Field(None, alias="mimeType", description="MIME type if known")
+    target_role: Optional[str] = Field(None, alias="targetRole", description="Target role (optional)")
     models: Optional[Dict[str, str]] = Field(None, description="Model overrides")
 
     model_config = {

@@ -47,9 +47,9 @@ def _extract_docx_text(data: bytes) -> str:
 
 def _extract_text(file_bytes: bytes, mime_type: Optional[str], file_name: Optional[str]) -> str:
     lower_name = (file_name or "").lower()
-    if mime_type and "pdf" in mime_type or lower_name.endswith(".pdf"):
+    if (mime_type and "pdf" in mime_type) or lower_name.endswith(".pdf"):
         return _extract_pdf_text(file_bytes)
-    if mime_type and "word" in mime_type or lower_name.endswith(".docx"):
+    if (mime_type and "word" in mime_type) or lower_name.endswith(".docx"):
         return _extract_docx_text(file_bytes)
     if lower_name.endswith(".doc"):
         # legacy doc not supported yet
@@ -177,6 +177,11 @@ async def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
         "ats": _score_ats(text),
         "match": _score_match(text, target_role),
     }
+
+    if not text or len(text) < 200:
+        fields["needsOcr"] = {"value": True, "confidence": 0.9}
+    else:
+        fields["needsOcr"] = {"value": False, "confidence": 0.9}
 
     return {
         "steps": PIPELINE_STEPS,
