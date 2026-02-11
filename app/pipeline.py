@@ -71,7 +71,7 @@ def _score_readability(text: str) -> int:
     bullet_ratio = len(bullet_lines) / max(len(lines), 1)
     length_score = 40 if len(text) > 1500 else 20 if len(text) > 700 else 10
     bullet_score = 40 if bullet_ratio >= 0.3 else 20 if bullet_ratio >= 0.15 else 10
-    return min(100, length_score + bullet_score)
+    return min(100, max(10, length_score + bullet_score))
 
 
 def _score_ats(text: str) -> int:
@@ -80,7 +80,7 @@ def _score_ats(text: str) -> int:
     headings = _count_headings(text)
     heading_score = 40 if headings >= 3 else 20 if headings >= 2 else 10
     length_score = 30 if len(text) > 1500 else 15
-    return min(100, heading_score + length_score + 20)
+    return min(100, max(10, heading_score + length_score + 20))
 
 
 def _score_match(text: str, target_role: Optional[str]) -> int:
@@ -120,6 +120,30 @@ def _bucket_experience(years: int) -> str:
     return "10+"
 
 
+
+
+def _map_function_area(role: str) -> str | None:
+    role_lower = role.lower()
+    if any(k in role_lower for k in ["engineer", "developer", "software", "frontend", "backend", "fullstack", "devops", "sre"]):
+        return "engineering"
+    if any(k in role_lower for k in ["product", "pm", "product manager"]):
+        return "product"
+    if any(k in role_lower for k in ["design", "ux", "ui"]):
+        return "design"
+    if any(k in role_lower for k in ["data", "analytics", "ml", "ai", "analyst"]):
+        return "data"
+    if any(k in role_lower for k in ["sales", "bd", "business development"]):
+        return "sales"
+    if any(k in role_lower for k in ["marketing", "growth"]):
+        return "marketing"
+    if any(k in role_lower for k in ["operations", "ops"]):
+        return "operations"
+    if any(k in role_lower for k in ["finance", "accounting"]):
+        return "finance"
+    if any(k in role_lower for k in ["hr", "people"]):
+        return "hr"
+    return None
+
 def _extract_fields(text: str) -> Dict[str, Any]:
     emails = EMAIL_RE.findall(text)
     phones = PHONE_RE.findall(text)
@@ -141,16 +165,19 @@ def _extract_fields(text: str) -> Dict[str, Any]:
     linkedin = next((url for url in links if "linkedin.com" in url), None)
     github = next((url for url in links if "github.com" in url), None)
     if linkedin:
-        fields["linkedinUrl"] = {"value": linkedin, "confidence": 0.8}
+        fields["linkedinUrl"] = {"value": linkedin, "confidence": 0.85}
     if github:
-        fields["githubUrl"] = {"value": github, "confidence": 0.8}
+        fields["githubUrl"] = {"value": github, "confidence": 0.85}
 
     if location:
-        fields["location"] = {"value": location, "confidence": _confidence(location)}
+        fields["location"] = {"value": location, "confidence": 0.7}
 
     role = _guess_role(lines)
     if role:
-        fields["role"] = {"value": role, "confidence": 0.6}
+        fields["role"] = {"value": role, "confidence": 0.65}
+        function_area = _map_function_area(role)
+        if function_area:
+            fields["functionArea"] = {"value": function_area, "confidence": 0.6}
 
     years_match = re.search(r"(\d{1,2})\s*\+?\s*years", text, re.I)
     if years_match:
