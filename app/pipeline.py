@@ -150,10 +150,34 @@ def _extract_fields(text: str) -> Dict[str, Any]:
     links = URL_RE.findall(text)
     location = None
     lines = [line.strip() for line in text.splitlines() if line.strip()]
-    if lines:
-        location = lines[0] if len(lines[0].split()) <= 6 else None
+
+    def _looks_like_name(value: str) -> bool:
+        words = value.split()
+        if len(words) < 2 or len(words) > 4:
+            return False
+        if any(any(char.isdigit() for char in word) for word in words):
+            return False
+        if "," in value:
+            return False
+        return all(word[:1].isupper() and word[1:].islower() for word in words)
+
+    def _looks_like_location(value: str) -> bool:
+        if "," in value:
+            return True
+        markers = ["india", "usa", "uk", "remote", "singapore", "canada", "australia"]
+        return any(marker in value.lower() for marker in markers)
 
     fields: Dict[str, Any] = {}
+
+    if lines:
+        first_line = lines[0]
+        if _looks_like_name(first_line):
+            fields["name"] = {"value": first_line, "confidence": 0.7}
+            if len(lines) > 1 and _looks_like_location(lines[1]):
+                location = lines[1]
+        else:
+            if len(first_line.split()) <= 6 and _looks_like_location(first_line):
+                location = first_line
 
     if emails:
         fields["email"] = {"value": emails[0], "confidence": 0.9}
