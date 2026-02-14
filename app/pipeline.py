@@ -3,6 +3,7 @@ import base64
 import re
 from io import BytesIO
 from .schemas import PIPELINE_STEPS, RESUME_OUTPUT_SCHEMA
+from .llm import extract_fields_llm
 
 try:
     import fitz  # PyMuPDF
@@ -222,6 +223,17 @@ async def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
     text = _extract_text(file_bytes, mime_type, file_name)
 
     fields = _extract_fields(text)
+
+    model_override = None
+    if isinstance(payload.get("models"), dict):
+        model_override = payload.get("models", {}).get("parse")
+
+    llm_fields = extract_fields_llm(text, model_override)
+    if llm_fields:
+        # prefer LLM values when provided
+        for key, value in llm_fields.items():
+            if isinstance(value, dict) and value.get("value"):
+                fields[key] = value
 
     scores = {
         "readability": _score_readability(text),

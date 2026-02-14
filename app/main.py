@@ -19,7 +19,7 @@ async def parse_resume(req: ParseRequest):
     telemetry = {
         "request_id": job_id,
         "received_at": received_at,
-        "pipeline_version": "0.1.0",
+        "pipeline_version": "0.1.1",
         "model_used": (req.models or {}).get("parse"),
     }
 
