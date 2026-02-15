@@ -28,6 +28,35 @@ SECTION_HEADINGS = [
     "profile",
 ]
 
+INJECTION_PATTERNS = [
+    "ignore previous instructions",
+    "system prompt",
+    "you are now",
+    "critical system instruction",
+    "simulated terminal",
+    "override all rules",
+    "disregard previous",
+    "stop being",
+    "act as a",  # common for persona injection
+]
+
+
+def _is_safe_text(text: str) -> Tuple[bool, Optional[str]]:
+    """
+    Scans text for prompt injection attempts.
+    Returns (True, None) if safe.
+    Returns (False, Reason) if unsafe.
+    """
+    if not text:
+        return True, None
+    
+    lower_text = text.lower()
+    for pattern in INJECTION_PATTERNS:
+        if pattern in lower_text:
+            return False, f"Detected potential prompt injection: '{pattern}'"
+    
+    return True, None
+
 
 def _extract_pdf_text(data: bytes) -> str:
     if not fitz:
@@ -221,6 +250,21 @@ async def run_pipeline(payload: Dict[str, Any]) -> Dict[str, Any]:
 
     file_bytes = base64.b64decode(file_base64)
     text = _extract_text(file_bytes, mime_type, file_name)
+
+    # Safety Check: Prompt Injection
+    is_safe, reason = _is_safe_text(text)
+    if not is_safe:
+        return {
+            "steps": PIPELINE_STEPS,
+            "schema": RESUME_OUTPUT_SCHEMA,
+            "text": None,
+            "scores": {"readability": 0, "ats": 0, "match": 0},
+            "fields": {
+                "needsOcr": {"value": False, "confidence": 1.0, "ocr_status": "blocked"},
+                "antivirus": {"value": "failed", "confidence": 1.0, "scan_status": "blocked", "note": reason},
+            },
+            "error": reason,
+        }
 
     fields = _extract_fields(text)
 
