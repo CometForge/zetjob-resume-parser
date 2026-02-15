@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from fastapi.responses import JSONResponse
 from uuid import uuid4
 from datetime import datetime, timezone
@@ -8,11 +8,12 @@ from .pipeline import run_pipeline
 from .config import config
 
 app = FastAPI(title="resume-parser", version="0.1.0")
+router = APIRouter(prefix="/svc/resume-parser")
 
 # in-memory store (stub)
 JOBS = {}
 
-@app.post("/parse", response_model=ParseResponse)
+@router.post("/parse", response_model=ParseResponse)
 async def parse_resume(req: ParseRequest):
     job_id = str(uuid4())
     received_at = datetime.now(timezone.utc).isoformat()
@@ -33,7 +34,7 @@ async def parse_resume(req: ParseRequest):
         telemetry=Telemetry(**telemetry),
     )
 
-@app.get("/status/{id}", response_model=StatusResponse)
+@router.get("/status/{id}", response_model=StatusResponse)
 async def status(id: str):
     job = JOBS.get(id)
     if not job:
@@ -41,14 +42,18 @@ async def status(id: str):
     telemetry = Telemetry(**job.get("telemetry"))
     return StatusResponse(id=id, status=job["status"], result=job.get("result"), telemetry=telemetry)
 
-@app.delete("/resume/{id}")
+@router.delete("/resume/{id}")
 async def delete_resume(id: str):
     if id in JOBS:
         del JOBS[id]
         return JSONResponse({"deleted": True, "id": id})
     raise HTTPException(status_code=404, detail="Not found")
 
-@app.get("/")
+@router.get("/health")
+async def health():
+    return {"status": "ok"}
+
+@router.get("/")
 async def root():
     return {
         "service": "resume-parser",
@@ -63,3 +68,5 @@ async def root():
         },
         "schema": RESUME_OUTPUT_SCHEMA,
     }
+
+app.include_router(router)
