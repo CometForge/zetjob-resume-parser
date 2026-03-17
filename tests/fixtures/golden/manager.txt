@@ -1,0 +1,14 @@
+Summary
+Engineering manager leading cross-functional platform teams.
+Experience
+Engineering Manager | Orbit Commerce, Mar 2020 - Present
+- Led 14-member team across product, design, and QA
+- Increased release frequency from monthly to weekly and reduced defects by 33%
+Tech Lead | Orbit Commerce, Jan 2018 - Feb 2020
+- Owned roadmap execution for checkout and reduced drop-offs by 18%
+Senior Engineer | SwiftCart, Jan 2015 - Dec 2017
+- Built payment reconciliation workflows handling $12M monthly volume
+Education
+City University, B.Tech Information Technology, 2010 - 2014
+Skills
+Leadership, Python, Stakeholder Management, Agile, System Design

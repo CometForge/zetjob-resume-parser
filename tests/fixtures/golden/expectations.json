@@ -1,0 +1,63 @@
+{
+  "career_gap": {
+    "score_min": 45,
+    "score_max": 85,
+    "roles_count": 2,
+    "required_flags": [
+      "employment_gap"
+    ],
+    "top_recommendation_dimension": "impact_quality"
+  },
+  "job_hopping": {
+    "score_min": 35,
+    "score_max": 80,
+    "roles_count": 4,
+    "required_flags": [
+      "job_hopping",
+      "generic_language"
+    ],
+    "top_recommendation_dimension": "impact_quality"
+  },
+  "junior": {
+    "score_min": 50,
+    "score_max": 90,
+    "roles_count": 2,
+    "required_flags": [],
+    "top_recommendation_dimension": "impact_quality"
+  },
+  "manager": {
+    "score_min": 55,
+    "score_max": 95,
+    "roles_count": 3,
+    "required_flags": [],
+    "top_recommendation_dimension": null
+  },
+  "mid_level": {
+    "score_min": 55,
+    "score_max": 95,
+    "roles_count": 2,
+    "required_flags": [],
+    "top_recommendation_dimension": null
+  },
+  "overlapping_roles": {
+    "score_min": 50,
+    "score_max": 95,
+    "roles_count": 3,
+    "required_flags": [],
+    "top_recommendation_dimension": null
+  },
+  "senior": {
+    "score_min": 60,
+    "score_max": 100,
+    "roles_count": 3,
+    "required_flags": [],
+    "top_recommendation_dimension": null
+  },
+  "weak_formatting": {
+    "score_min": 0,
+    "score_max": 60,
+    "roles_count": 0,
+    "required_flags": [],
+    "top_recommendation_dimension": "impact_quality"
+  }
+}

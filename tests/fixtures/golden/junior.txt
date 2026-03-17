@@ -1,0 +1,14 @@
+Summary
+Junior software engineer with internship and entry-level backend experience.
+Experience
+Software Engineer | ByteMint, Jan 2024 - Present
+- Built internal API endpoints in FastAPI used by 3 teams
+- Improved test coverage from 40% to 68%
+Intern | Cloudseed, Jun 2023 - Dec 2023
+- Assisted in building CI checks and fixing flaky tests
+Education
+Metro Institute, B.Tech Computer Science, 2019 - 2023
+Skills
+Python, FastAPI, SQL, Git, Docker
+Projects
+College ERP Revamp - Reduced report generation time by 20%

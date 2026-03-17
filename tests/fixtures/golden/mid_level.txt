@@ -1,0 +1,14 @@
+Summary
+Mid-level backend engineer focused on reliability and developer experience.
+Experience
+Software Engineer | GridLabs, Jan 2020 - Present
+- Built 5 internal developer tools and reduced setup time by 45%
+- Collaborated with SRE team to improve uptime to 99.95%
+Associate Engineer | GridLabs, Jul 2018 - Dec 2019
+- Implemented service health checks and reduced alert noise by 22%
+Education
+State Tech University, B.Tech, 2014 - 2018
+Skills
+Python, FastAPI, PostgreSQL, Docker, CI/CD
+Projects
+LogIQ - Built log anomaly detector with 91% precision

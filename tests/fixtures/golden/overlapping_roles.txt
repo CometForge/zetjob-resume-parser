@@ -1,0 +1,13 @@
+Summary
+Full-stack engineer with concurrent consulting and product responsibilities.
+Experience
+Lead Engineer | NovaApps, Jan 2021 - Present
+- Owned architecture for SaaS billing and increased collections by 17%
+Consultant | FinLeaf, Jun 2021 - Dec 2022
+- Built analytics dashboards used by 40 client managers
+Senior Developer | PixelNorth, Jan 2018 - Dec 2020
+- Improved release automation and reduced rollout time by 30%
+Education
+Institute of Technology, B.Sc Computer Science, 2013 - 2017
+Skills
+JavaScript, TypeScript, Node.js, React, PostgreSQL

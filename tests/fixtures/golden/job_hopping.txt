@@ -1,0 +1,15 @@
+Summary
+Backend engineer with broad startup exposure.
+Experience
+Software Engineer | Startup A, Jan 2021 - Aug 2021
+- Responsible for various microservice tasks
+Software Engineer | Startup B, Sep 2021 - Apr 2022
+- Worked on API integrations and support
+Software Engineer | Startup C, May 2022 - Jan 2023
+- Assisted with platform migration
+Software Engineer | Startup D, Feb 2023 - Nov 2023
+- Built internal tools and improved debugging speed by 10%
+Education
+Tech College, BCA, 2017 - 2020
+Skills
+Python, Node.js, PostgreSQL
