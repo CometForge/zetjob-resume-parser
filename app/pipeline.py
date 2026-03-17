@@ -80,14 +80,24 @@ def _extract_docx_text(data: bytes) -> str:
 
 def _extract_text(file_bytes: bytes, mime_type: Optional[str], file_name: Optional[str]) -> str:
     lower_name = (file_name or "").lower()
-    if (mime_type and "pdf" in mime_type) or lower_name.endswith(".pdf"):
+    lower_mime = (mime_type or "").lower()
+
+    if ("pdf" in lower_mime) or lower_name.endswith(".pdf"):
         return _extract_pdf_text(file_bytes)
-    if (mime_type and "word" in mime_type) or lower_name.endswith(".docx"):
+    if ("word" in lower_mime) or lower_name.endswith(".docx"):
         return _extract_docx_text(file_bytes)
     if lower_name.endswith(".doc"):
         # legacy doc not supported yet
         return ""
-    # default: try pdf
+
+    # plain text uploads (txt/rtf/markdown/unknown text mime)
+    if lower_name.endswith((".txt", ".md", ".rtf")) or lower_mime.startswith("text/"):
+        return file_bytes.decode("utf-8", errors="ignore").strip()
+
+    # fallback: attempt utf-8 decode first, then PDF parser
+    decoded = file_bytes.decode("utf-8", errors="ignore").strip()
+    if decoded:
+        return decoded
     return _extract_pdf_text(file_bytes)
 
 

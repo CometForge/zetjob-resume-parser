@@ -1,0 +1,17 @@
+Summary
+Senior backend engineer with 9+ years building high-scale distributed systems.
+Experience
+Principal Engineer | ScaleForge, Jan 2021 - Present
+- Led platform redesign serving 2M MAU and reduced p95 latency by 42%
+- Built 8 event-driven services and cut deployment failures by 55%
+Senior Engineer | DataRail, Feb 2017 - Dec 2020
+- Owned billing reliability roadmap and reduced incident count by 48%
+- Mentored 6 engineers and standardized SLO playbooks
+Engineer | AppNova, Jul 2014 - Jan 2017
+- Built partner APIs that improved integration speed by 35%
+Education
+National Tech University, B.E. Computer Engineering, 2010 - 2014
+Skills
+Python, Go, Kafka, PostgreSQL, Kubernetes, AWS
+Certifications
+AWS Solutions Architect | AWS

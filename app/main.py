@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from .schemas import ParseRequest, ParseResponse, StatusResponse, Telemetry, RESUME_OUTPUT_SCHEMA
 from .pipeline import run_pipeline
 from .config import config
+from .v2.types import V2AnalyzeRequest
+from .v2.pipeline import run_v2_pipeline
 
 app = FastAPI(title="resume-parser", version="0.1.0")
 router = APIRouter(prefix="/svc/resume-parser")
@@ -73,4 +75,14 @@ async def root():
         "schema": RESUME_OUTPUT_SCHEMA,
     }
 
+v2_router = APIRouter(prefix="/svc/resume-parser/v2")
+
+
+@v2_router.post("/analyze")
+async def analyze_v2(req: V2AnalyzeRequest):
+    result = await run_v2_pipeline(req.model_dump(by_alias=False))
+    return result
+
+
 app.include_router(router)
+app.include_router(v2_router)

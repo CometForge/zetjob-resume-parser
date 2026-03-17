@@ -1,0 +1,12 @@
+Summary
+Backend developer returning after planned caregiving break.
+Experience
+Software Engineer | CoreWave, Jan 2018 - Jan 2020
+- Built customer notification service and improved delivery success by 24%
+- Responsible for API maintenance and various support tasks
+Senior Software Engineer | CoreWave, Aug 2022 - Present
+- Led migration to async workers and reduced queue lag by 61%
+Education
+Regional Engineering College, B.Tech Computer Science, 2012 - 2016
+Skills
+Python, Django, PostgreSQL, Redis
